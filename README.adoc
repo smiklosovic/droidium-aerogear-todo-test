@@ -1,5 +1,7 @@
 === What does it do?
 
+https://github.com/arquillian/arquillian-droidium[Arquillian Droidium project]
+
 There is AeroGear TODO web app as ear and Android native application as a client for it.
 
 It deploys ear application to JBoss AS and Android TODO client application to emulator. Then there 
