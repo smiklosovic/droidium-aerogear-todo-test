@@ -39,7 +39,7 @@
         <property name="serverApk">selendroid-server-0.5.1.apk</property>
     </extension>
 
-    <!-- This instance of WebDriver will control deployed WAR application -->
+    <!-- This instance of WebDriver will control deployed EAR application -->
     <extension qualifier="webdriver-browser">
         <property name="browser">firefox</property>
         <property name="remoteAddress">http://localhost:8080/wd/hub</property>
