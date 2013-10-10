@@ -12,7 +12,7 @@ import org.arquillian.droidium.openblend.fragment.mobile.LoginMobileFragment;
 import org.arquillian.droidium.openblend.fragment.mobile.TaskMobileFragment;
 import org.arquillian.droidium.openblend.fragment.web.LoginWebFragment;
 import org.arquillian.droidium.openblend.fragment.web.ProjectFragment;
-import org.arquillian.droidium.openblend.fragment.web.TaskFragment;
+import org.arquillian.droidium.openblend.fragment.web.TaskWebFragment;
 import org.jboss.arquillian.container.test.api.OperateOnDeployment;
 import org.jboss.arquillian.junit.InSequence;
 import org.jboss.arquillian.test.api.ArquillianResource;
@@ -20,7 +20,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.support.FindBy;
 
-public class AeroGearTestCase extends AbstractTODOTestCase {
+public class AeroGearTestCase extends AbstractAeroGearTestCase {
 
     @Browser
     @FindBy(id = "login-box")
@@ -32,7 +32,7 @@ public class AeroGearTestCase extends AbstractTODOTestCase {
 
     @Browser
     @FindBy(id = "task-container")
-    private TaskFragment taskFragment;
+    private TaskWebFragment taskFragment;
     
     @Mobile
     @FindBy(id = "content")
@@ -113,7 +113,7 @@ public class AeroGearTestCase extends AbstractTODOTestCase {
     }
     
     @Test
-    @InSequence(7)
+    @InSequence(6)
     @OperateOnDeployment("todo-ear-app")
     public void seeMobileTaskInWebClient() {
         browser.navigate().refresh();
