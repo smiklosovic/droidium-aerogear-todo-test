@@ -1,6 +1,11 @@
 === What does it do?
 
+https://github.com/aerogear/TODO[Aerogear TODO project]
+
+http://aerogear.org[AeroGear project]
+
 https://github.com/arquillian/arquillian-droidium[Arquillian Droidium project]
+
 
 There is AeroGear TODO web app as ear and Android native application as a client for it.
 
