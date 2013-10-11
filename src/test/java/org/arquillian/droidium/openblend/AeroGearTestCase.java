@@ -17,9 +17,12 @@
 package org.arquillian.droidium.openblend;
 
 import static org.arquillian.droidium.openblend.utils.Utils.*;
+
+import java.io.File;
 import java.net.URL;
 
 import org.arquillian.droidium.container.api.AndroidDevice;
+import org.arquillian.droidium.native_.api.Instrumentable;
 import org.arquillian.droidium.openblend.drones.Browser;
 import org.arquillian.droidium.openblend.drones.Mobile;
 import org.arquillian.droidium.openblend.fragment.mobile.LoginMobileFragment;
@@ -27,12 +30,22 @@ import org.arquillian.droidium.openblend.fragment.mobile.TaskMobileFragment;
 import org.arquillian.droidium.openblend.fragment.web.LoginWebFragment;
 import org.arquillian.droidium.openblend.fragment.web.ProjectFragment;
 import org.arquillian.droidium.openblend.fragment.web.TaskWebFragment;
+import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.OperateOnDeployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.container.test.api.TargetsContainer;
+import org.jboss.arquillian.drone.api.annotation.Drone;
+import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.junit.InSequence;
 import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.EnterpriseArchive;
+import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.Assert;
 import org.junit.Test;
-import org.openqa.selenium.By;
+import org.junit.runner.RunWith;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 /**
@@ -40,7 +53,30 @@ import org.openqa.selenium.support.FindBy;
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
  *
  */
-public class AeroGearTestCase extends AbstractAeroGearTestCase {
+@RunWith(Arquillian.class)
+@RunAsClient
+public class AeroGearTestCase {
+
+    @Drone
+    @Browser
+    WebDriver browser;
+
+    @Drone
+    @Mobile
+    WebDriver mobile;
+
+    @Deployment(name = "todo-mobile-app")
+    @Instrumentable(viaPort = 8081)
+    @TargetsContainer("android")
+    public static JavaArchive getAndroidDeployment() {
+        return ShrinkWrap.createFromZipFile(JavaArchive.class, new File("android-todos.apk"));
+    }
+
+    @Deployment(name = "todo-ear-app")
+    @TargetsContainer("jbossas")
+    public static EnterpriseArchive getJBossASDeployment() {
+        return ShrinkWrap.createFromZipFile(EnterpriseArchive.class, new File("todo-ear.ear"));
+    }
 
     @Browser
     @FindBy(id = "login-box")
@@ -62,18 +98,16 @@ public class AeroGearTestCase extends AbstractAeroGearTestCase {
     @FindBy(id = "todo")
     private TaskMobileFragment taskMobileFragment;
 
+    @Browser
+    @FindBy(id = "logout-btn")
+    private WebElement logoutButton;
+
     @Test
     @InSequence(1)
     @OperateOnDeployment("todo-ear-app")
     public void loginUserInWebClient(@ArquillianResource URL context) {
         openWebPageUrl(browser, context);
-
-        loginFragment.writeUsername("john");
-        loginFragment.writePassword("123");
-
-        waitUtil(NORMAL);
-
-        loginFragment.submitForm();
+        loginFragment.login("john", "123");
     }
 
     @Test
@@ -81,7 +115,6 @@ public class AeroGearTestCase extends AbstractAeroGearTestCase {
     @OperateOnDeployment("todo-ear-app")
     public void addProject() {
 
-        projectFragment.click();
         projectFragment.addProject("groceries");
 
         Assert.assertEquals(projectFragment.getAddedProject().getText(), "groceries");
@@ -91,47 +124,31 @@ public class AeroGearTestCase extends AbstractAeroGearTestCase {
     @InSequence(3)
     @OperateOnDeployment("todo-ear-app")
     public void addTask() {
-        taskFragment.click();
-        taskFragment.addTitle("buy some milk");
-        taskFragment.addDate("2020", "10", "20");
-        taskFragment.addDescription("buy some fresh milk around the corner");
-        taskFragment.addToProject("groceries");
-        taskFragment.add();
+
+        taskFragment.addTask("groceries", "buy some milk", "2020", "10", "20", "buy some fresh milk around the corner");
 
         Assert.assertEquals(taskFragment.getAddedTask().getTitle(), "buy some milk");
-        Assert.assertEquals(taskFragment.getAddedTask().getDate(), "2020-10-21");
         Assert.assertEquals(taskFragment.getAddedTask().getDescription(), "buy some fresh milk around the corner");
 
-        waitUtil(NORMAL);
     }
 
     @Test
     @InSequence(4)
     @OperateOnDeployment("todo-mobile-app")
     public void loginUserInMobile(@ArquillianResource AndroidDevice device) {
+
         device.getActivityManagerProvider()
-            .getActivityManager().startActivity("org.jboss.aerogear.todo.activities.LoginActivity");
+            .getActivityManager()
+            .startActivity("org.jboss.aerogear.todo.activities.LoginActivity");
 
-        loginMobileFragment.writeUsername("john");
-        loginMobileFragment.writePassword("123");
-        loginMobileFragment.login();
-
-        waitUtil(NORMAL);
-
+        loginMobileFragment.login("john", "123");
     }
 
     @Test
     @InSequence(5)
     @OperateOnDeployment("todo-mobile-app")
     public void addMobileTask() {
-        taskMobileFragment.addTask();
-
-        taskMobileFragment.addName("mobile task");
-        taskMobileFragment.addDate("2014-10-20");
-        taskMobileFragment.addDescription("task from mobile phone!");
-        taskMobileFragment.submitTask();
-
-        waitUtil(NORMAL);
+        taskMobileFragment.addTask("mobile task", "2014-10-20", "task from mobile phone!");
     }
 
     @Test
@@ -139,7 +156,6 @@ public class AeroGearTestCase extends AbstractAeroGearTestCase {
     @OperateOnDeployment("todo-ear-app")
     public void seeMobileTaskInWebClient() {
         browser.navigate().refresh();
-        waitUtil(SLOW);
     }
 
     @Test
@@ -147,14 +163,12 @@ public class AeroGearTestCase extends AbstractAeroGearTestCase {
     @OperateOnDeployment("todo-mobile-app")
     public void logoutFromMobileClient() {
         taskMobileFragment.logout();
-        waitUtil(FAST);
     }
 
     @Test
     @InSequence(8)
     @OperateOnDeployment("todo-ear-app")
     public void logoutFromWebClient() {
-        browser.findElement(By.id("logout-btn")).click();
-        waitUtil(SLOW);
+        logoutButton.click();
     }
 }

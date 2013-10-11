@@ -21,6 +21,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 /**
+ * Graphene page fragment for login into mobile client.
  *
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
  *
@@ -28,7 +29,7 @@ import org.openqa.selenium.support.FindBy;
 public class LoginMobileFragment {
 
     @Root
-    WebElement root;
+    private WebElement root;
 
     @FindBy(id = "username_field")
     private WebElement usernameField;
@@ -39,15 +40,9 @@ public class LoginMobileFragment {
     @FindBy(id = "login_button")
     private WebElement loginButton;
 
-    public void writeUsername(String username) {
+    public void login(String username, String password) {
         usernameField.sendKeys(username);
-    }
-
-    public void writePassword(String password) {
         passwordField.sendKeys(password);
-    }
-
-    public void login() {
         loginButton.click();
     }
 
