@@ -14,44 +14,48 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.arquillian.droidium.openblend.fragment.web;
+package org.arquillian.droidium.devconf.fragment.mobile;
 
-import org.arquillian.droidium.openblend.drones.Browser;
+import org.arquillian.droidium.devconf.drones.Mobile;
 import org.jboss.arquillian.drone.api.annotation.Drone;
-import org.jboss.arquillian.graphene.Graphene;
-import org.jboss.arquillian.graphene.fragment.Root;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-/**
- * Graphene page fragment for login into web client.
- *
- * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
- *
- */
-public class LoginWebFragment {
+public class TaskMobilePage {
 
-    @Root
-    private WebElement root;
-
+    @Mobile
     @Drone
-    @Browser
-    private WebDriver browser;
+    private WebDriver mobile;
 
-    @FindBy(id = "login-username")
-    private WebElement usernameField;
+    @FindBy(id = "name")
+    private WebElement mobileName;
 
-    @FindBy(id = "login-password")
-    private WebElement passwordField;
+    @FindBy(id = "date")
+    private WebElement mobileDate;
 
-    @FindBy(id = "login-submit")
-    private WebElement loginButton;
+    @FindBy(id = "description")
+    private WebElement mobileDescription;
 
-    public void login(String username, String password) {
-        usernameField.sendKeys(username);
-        passwordField.sendKeys(password);
-        loginButton.click();
-        Graphene.waitGui(browser).until().element(root).is().not().visible();
+    @FindBy(id = "buttonSave")
+    private WebElement mobileSaveButton;
+
+    @FindBy(id = "add")
+    private WebElement mobileAddButton;
+
+    @FindBy(id = "menu_logout")
+    private WebElement logoutButton;
+
+    public void addTask(String taskName, String date, String description) {
+        mobileAddButton.click();
+        mobileName.sendKeys(taskName);
+        mobileDate.sendKeys(date);
+        mobileDescription.sendKeys(description);
+        mobileSaveButton.click();
     }
+
+    public void logout() {
+        logoutButton.click();
+    }
+
 }

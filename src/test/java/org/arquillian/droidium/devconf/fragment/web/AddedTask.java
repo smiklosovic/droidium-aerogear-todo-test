@@ -14,27 +14,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.arquillian.droidium.openblend.utils;
+package org.arquillian.droidium.devconf.fragment.web;
 
-import java.net.URL;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
-import org.openqa.selenium.WebDriver;
+public class AddedTask {
 
-/**
- *
- * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
- *
- */
-public class Utils {
+    private WebElement addedTask;
 
-    public static final String WEB_CONTEXT = "/todo";
+    public AddedTask(WebElement addedTask) {
+        this.addedTask = addedTask;
+    }
 
-    public static void openWebPageUrl(WebDriver browser, URL context) {
-        try {
-            browser.get(context.toExternalForm() + WEB_CONTEXT);
-        } catch (final Exception ignore) {
-            ignore.printStackTrace();
-        }
+    public String getDate() {
+        return addedTask.findElement(By.cssSelector(".task-upper .task-date")).getText();
+    }
+
+    public String getTitle() {
+        return addedTask.findElement(By.cssSelector(".task-upper .task-title")).getText();
+    }
+
+    public String getDescription() {
+        return addedTask.findElement(By.cssSelector(".task-desc")).getText();
     }
 
 }

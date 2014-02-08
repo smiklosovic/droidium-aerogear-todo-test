@@ -26,10 +26,10 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <version.arquillian.core>1.1.1.Final</version.arquillian.core>
-        <version.shrinkwrap_shrinkwrap>1.1.3</version.shrinkwrap_shrinkwrap>
-        <version.org.jboss.arquillian.drone>1.2.0.Final</version.org.jboss.arquillian.drone>
-        <version.org.jboss.arquillian.graphene2>2.0.0.CR2</version.org.jboss.arquillian.graphene2>
-        <version.droidium>1.0.0.Alpha2</version.droidium>
+        <version.shrinkwrap_shrinkwrap>1.2.0</version.shrinkwrap_shrinkwrap>
+        <version.org.jboss.arquillian.drone>1.2.2.Final</version.org.jboss.arquillian.drone>
+        <version.org.jboss.arquillian.graphene2>2.0.0.Final</version.org.jboss.arquillian.graphene2>
+        <version.droidium>1.0.0.Alpha4</version.droidium>
         <version.org.jboss.as>7.1.1.Final</version.org.jboss.as>
         <version.junit>4.11</version.junit>
         <maven.compiler.source>1.6</maven.compiler.source>
@@ -76,9 +76,8 @@
             </dependency>
             <dependency>
                 <groupId>org.arquillian.extension</groupId>
-                <artifactId>arquillian-droidium-native-depchain</artifactId>
+                <artifactId>arquillian-droidium-native</artifactId>
                 <version>${version.droidium}</version>
-                <type>pom</type>
                 <scope>test</scope>
             </dependency>
             <dependency>
@@ -113,8 +112,7 @@
         <!-- Arquillian Droidium Native extension for native Android application ftesting -->
         <dependency>
             <groupId>org.arquillian.extension</groupId>
-            <artifactId>arquillian-droidium-native-depchain</artifactId>
-            <type>pom</type>
+            <artifactId>arquillian-droidium-native</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>

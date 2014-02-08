@@ -14,34 +14,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.arquillian.droidium.openblend.fragment.web;
+package org.arquillian.droidium.devconf.fragment.mobile;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
-/**
- *
- * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
- *
- */
-public class AddedTask {
+public class LoginMobilePage {
 
-    private WebElement addedTask;
+    @FindBy(id = "username_field")
+    private WebElement usernameField;
 
-    public AddedTask(WebElement addedTask) {
-        this.addedTask = addedTask;
-    }
+    @FindBy(id = "password_field")
+    private WebElement passwordField;
 
-    public String getDate() {
-        return addedTask.findElement(By.cssSelector(".task-upper .task-date")).getText();
-    }
+    @FindBy(id = "login_button")
+    private WebElement loginButton;
 
-    public String getTitle() {
-        return addedTask.findElement(By.cssSelector(".task-upper .task-title")).getText();
-    }
-
-    public String getDescription() {
-        return addedTask.findElement(By.cssSelector(".task-desc")).getText();
+    public void login(String username, String password) {
+        usernameField.sendKeys(username);
+        passwordField.sendKeys(password);
+        loginButton.click();
     }
 
 }

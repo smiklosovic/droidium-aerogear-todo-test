@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.arquillian.droidium.openblend.drones;
+package org.arquillian.droidium.devconf.drones;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -24,7 +24,7 @@ import java.lang.annotation.Target;
 import org.jboss.arquillian.drone.api.annotation.Qualifier;
 
 /**
- * Once you put this on Drone injection instance, you say that instance will operate on web browser.
+ * Once you put this on Drone injection instance, you say that instance will operate on Android application.
  *
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
  *
@@ -32,6 +32,6 @@ import org.jboss.arquillian.drone.api.annotation.Qualifier;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ ElementType.FIELD, ElementType.PARAMETER })
 @Qualifier
-public @interface Browser {
+public @interface Mobile {
 
 }

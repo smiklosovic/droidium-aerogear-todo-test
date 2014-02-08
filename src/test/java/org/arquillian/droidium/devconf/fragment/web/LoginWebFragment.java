@@ -14,36 +14,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.arquillian.droidium.openblend.fragment.mobile;
+package org.arquillian.droidium.devconf.fragment.web;
 
+import org.arquillian.droidium.devconf.drones.Browser;
+import org.jboss.arquillian.drone.api.annotation.Drone;
+import org.jboss.arquillian.graphene.Graphene;
 import org.jboss.arquillian.graphene.fragment.Root;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-/**
- * Graphene page fragment for login into mobile client.
- *
- * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
- *
- */
-public class LoginMobileFragment {
+public class LoginWebFragment {
 
     @Root
     private WebElement root;
 
-    @FindBy(id = "username_field")
+    @Drone
+    @Browser
+    private WebDriver browser;
+
+    @FindBy(id = "login-username")
     private WebElement usernameField;
 
-    @FindBy(id = "password_field")
+    @FindBy(id = "login-password")
     private WebElement passwordField;
 
-    @FindBy(id = "login_button")
+    @FindBy(id = "login-submit")
     private WebElement loginButton;
 
     public void login(String username, String password) {
         usernameField.sendKeys(username);
         passwordField.sendKeys(password);
         loginButton.click();
+        Graphene.waitGui(browser).until().element(root).is().not().visible();
     }
-
 }

@@ -14,30 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.arquillian.droidium.openblend.fragment.web;
+package org.arquillian.droidium.devconf.fragment.web;
 
 import java.util.List;
 
-import org.arquillian.droidium.openblend.drones.Browser;
+import org.arquillian.droidium.devconf.drones.Browser;
 import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.graphene.Graphene;
 import org.jboss.arquillian.graphene.findby.FindByJQuery;
-import org.jboss.arquillian.graphene.fragment.Root;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 
-/**
- * Graphene page fragment for adding a task into todo list.
- *
- * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
- *
- */
 public class TaskWebFragment {
-
-    @Root
-    private WebElement root;
 
     @Drone
     @Browser

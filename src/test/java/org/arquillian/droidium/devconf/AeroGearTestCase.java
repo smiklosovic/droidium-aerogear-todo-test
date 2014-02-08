@@ -14,27 +14,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.arquillian.droidium.openblend;
+package org.arquillian.droidium.devconf;
 
-import static org.arquillian.droidium.openblend.utils.Utils.*;
+import static org.arquillian.droidium.devconf.utils.Utils.openWebPageUrl;
 
 import java.io.File;
 import java.net.URL;
 
 import org.arquillian.droidium.container.api.AndroidDevice;
+import org.arquillian.droidium.devconf.drones.Browser;
+import org.arquillian.droidium.devconf.drones.Mobile;
+import org.arquillian.droidium.devconf.fragment.mobile.LoginMobilePage;
+import org.arquillian.droidium.devconf.fragment.mobile.TaskMobilePage;
+import org.arquillian.droidium.devconf.fragment.web.LoginWebFragment;
+import org.arquillian.droidium.devconf.fragment.web.ProjectFragment;
+import org.arquillian.droidium.devconf.fragment.web.TaskWebFragment;
 import org.arquillian.droidium.native_.api.Instrumentable;
-import org.arquillian.droidium.openblend.drones.Browser;
-import org.arquillian.droidium.openblend.drones.Mobile;
-import org.arquillian.droidium.openblend.fragment.mobile.LoginMobileFragment;
-import org.arquillian.droidium.openblend.fragment.mobile.TaskMobileFragment;
-import org.arquillian.droidium.openblend.fragment.web.LoginWebFragment;
-import org.arquillian.droidium.openblend.fragment.web.ProjectFragment;
-import org.arquillian.droidium.openblend.fragment.web.TaskWebFragment;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.OperateOnDeployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.container.test.api.TargetsContainer;
 import org.jboss.arquillian.drone.api.annotation.Drone;
+import org.jboss.arquillian.graphene.page.Page;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.junit.InSequence;
 import org.jboss.arquillian.test.api.ArquillianResource;
@@ -48,11 +49,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-/**
- *
- * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
- *
- */
 @RunWith(Arquillian.class)
 @RunAsClient
 public class AeroGearTestCase {
@@ -90,17 +86,17 @@ public class AeroGearTestCase {
     @FindBy(id = "task-container")
     private TaskWebFragment taskFragment;
 
-    @Mobile
-    @FindBy(id = "content")
-    private LoginMobileFragment loginMobileFragment;
-
-    @Mobile
-    @FindBy(id = "todo")
-    private TaskMobileFragment taskMobileFragment;
-
     @Browser
     @FindBy(id = "logout-btn")
     private WebElement logoutButton;
+
+    @Mobile
+    @Page
+    private LoginMobilePage loginMobileFragment;
+
+    @Mobile
+    @Page
+    private TaskMobilePage taskMobileFragment;
 
     @Test
     @InSequence(1)
