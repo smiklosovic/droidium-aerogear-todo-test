@@ -43,6 +43,7 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.EnterpriseArchive;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
@@ -61,14 +62,14 @@ public class AeroGearTestCase {
     @Mobile
     WebDriver mobile;
 
-    @Deployment(name = "todo-mobile-app")
+    @Deployment(name = "todo-mobile-app", order = 1)
     @Instrumentable(viaPort = 8081)
     @TargetsContainer("android")
     public static JavaArchive getAndroidDeployment() {
         return ShrinkWrap.createFromZipFile(JavaArchive.class, new File("android-todos.apk"));
     }
 
-    @Deployment(name = "todo-ear-app")
+    @Deployment(name = "todo-ear-app", order = 2)
     @TargetsContainer("jbossas")
     public static EnterpriseArchive getJBossASDeployment() {
         return ShrinkWrap.createFromZipFile(EnterpriseArchive.class, new File("todo-ear.ear"));
@@ -92,7 +93,7 @@ public class AeroGearTestCase {
 
     @Mobile
     @Page
-    private LoginMobilePage loginMobileFragment;
+    private LoginMobilePage loginMobilePage;
 
     @Mobile
     @Page
@@ -133,18 +134,18 @@ public class AeroGearTestCase {
     @OperateOnDeployment("todo-mobile-app")
     public void loginUserInMobile(@ArquillianResource AndroidDevice device) {
 
-        device.getActivityManagerProvider()
-            .getActivityManager()
+        device.getActivityManagerProvider().getActivityManager()
             .startActivity("org.jboss.aerogear.todo.activities.LoginActivity");
 
-        loginMobileFragment.login("john", "123");
+        loginMobilePage.login("john", "123");
     }
 
     @Test
     @InSequence(5)
     @OperateOnDeployment("todo-mobile-app")
     public void addMobileTask() {
-        taskMobileFragment.addTask("mobile task", "2014-10-20", "task from mobile phone!");
+        taskMobileFragment.addTask("mobile task",
+            "2014-10-20", "task from mobile phone!");
     }
 
     @Test
@@ -166,5 +167,25 @@ public class AeroGearTestCase {
     @OperateOnDeployment("todo-ear-app")
     public void logoutFromWebClient() {
         logoutButton.click();
+    }
+
+    @Test
+    @InSequence(9)
+    @OperateOnDeployment("todo-mobile-app")
+    @RunAsClient
+    public void fakeRunAsClient() {
+
+    }
+
+    @Test
+    @InSequence(10)
+    @Ignore
+    public void ignoreTest() {
+    }
+
+    @Test
+    @InSequence(11)
+    public void throwExceptionTest() {
+        throw new RuntimeException("This is some testing exception.");
     }
 }

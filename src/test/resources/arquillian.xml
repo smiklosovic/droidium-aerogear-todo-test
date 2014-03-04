@@ -17,9 +17,8 @@
     <group qualifier="containers" default="true">
         <container qualifier="android" default="true">
             <configuration>
-                <!-- Name of Android container to start or use during tests. This property is filtered
-                    meaning it is set in profile in pom.xml under the same name of the property. -->
                 <property name="avdName">${name.avd}</property>
+                <property name="consolePort">5554</property>
                 <property name="emulatorOptions">${android.emulator.options}</property>
                 <property name="emulatorBootupTimeoutInSeconds">600</property>
                 <property name="logType">disable</property>
@@ -32,16 +31,31 @@
         </container>
     </group>
 
+    <extension qualifier="reporter">
+        <property name="report">html</property>
+        <property name="rootDir">/tmp/reports</property>
+    </extension>
+
+    <extension qualifier="recorder">
+        <property name="takeOnlyOnFail">false</property>
+        <property name="startBeforeClass">true</property>
+    </extension>
+
+    <extension qualifier="screenshooter">
+        <property name="takeBeforeTest">true</property>
+        <property name="takeAfterTest">true</property>
+    </extension>
+
     <!-- Support for Arquillian Droidium Native extension
         for testing native Android applications -->
     <extension qualifier="droidium-native">
-        <property name="serverApk">src/test/resources/bin/selendroid-server-0.7.0.apk</property>
+        <property name="serverApk">src/test/resources/bin/selendroid-server-0.8.0.apk</property>
     </extension>
 
     <!-- This instance of WebDriver will control deployed EAR application -->
     <extension qualifier="webdriver-browser">
         <property name="browser">firefox</property>
-		<property name="dimensions">1024x768</property>
+        <property name="dimensions">1024x768</property>
     </extension>
 
     <!-- This instance of WebDriver will control deployed APK application -->
