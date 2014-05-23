@@ -14,26 +14,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.arquillian.droidium.devconf.fragment.mobile;
+package org.arquillian.droidium.jeeconf.drones;
 
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-public class LoginMobilePage {
+import org.jboss.arquillian.drone.api.annotation.Qualifier;
 
-    @FindBy(id = "username_field")
-    private WebElement usernameField;
-
-    @FindBy(id = "password_field")
-    private WebElement passwordField;
-
-    @FindBy(id = "login_button")
-    private WebElement loginButton;
-
-    public void login(String username, String password) {
-        usernameField.sendKeys(username);
-        passwordField.sendKeys(password);
-        loginButton.click();
-    }
+/**
+ * Once you put this on Drone injection instance, you say that instance will operate on Android application.
+ * 
+ * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
+ * 
+ */
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ ElementType.FIELD, ElementType.PARAMETER })
+@Qualifier
+public @interface Mobile {
 
 }

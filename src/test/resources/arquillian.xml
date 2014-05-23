@@ -31,23 +31,6 @@
         </container>
     </group>
 
-    <extension qualifier="reporter">
-        <property name="report">html</property>
-        <property name="rootDir">/tmp/reports</property>
-    </extension>
-
-    <extension qualifier="recorder">
-        <property name="takeOnlyOnFail">false</property>
-        <property name="startBeforeClass">true</property>
-    </extension>
-
-    <extension qualifier="screenshooter">
-        <property name="takeBeforeTest">true</property>
-        <property name="takeAfterTest">true</property>
-    </extension>
-
-    <!-- Support for Arquillian Droidium Native extension
-        for testing native Android applications -->
     <extension qualifier="droidium-native">
         <property name="serverApk">src/test/resources/bin/selendroid-server-0.8.0.apk</property>
     </extension>

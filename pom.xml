@@ -25,14 +25,10 @@
     <!-- Properties -->
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <version.arquillian.core>1.1.3.Final</version.arquillian.core>
-        <version.shrinkwrap_shrinkwrap>1.2.0</version.shrinkwrap_shrinkwrap>
+        <version.arquillian.core>1.1.4.Final</version.arquillian.core>
         <version.org.jboss.arquillian.drone>1.2.4.Final</version.org.jboss.arquillian.drone>
         <version.org.jboss.arquillian.graphene2>2.0.1.Final</version.org.jboss.arquillian.graphene2>
-        <version.droidium>1.0.0.Beta1-SNAPSHOT</version.droidium>
-        <version.screenshooter>0.0.1-SNAPSHOT</version.screenshooter>
-        <version.recorder>0.0.1-SNAPSHOT</version.recorder>
-		<version.reporter>1.0.0.Alpha1</version.reporter>
+        <version.droidium>1.0.0.Alpha5</version.droidium>
         <version.org.jboss.as>7.1.1.Final</version.org.jboss.as>
         <version.junit>4.11</version.junit>
         <maven.compiler.source>1.6</maven.compiler.source>
@@ -44,13 +40,6 @@
     <!-- Dependency Management -->
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>org.jboss.shrinkwrap</groupId>
-                <artifactId>shrinkwrap-bom</artifactId>
-                <version>${version.shrinkwrap_shrinkwrap}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
             <dependency>
                 <groupId>org.jboss.arquillian.extension</groupId>
                 <artifactId>arquillian-drone-bom</artifactId>
@@ -90,37 +79,45 @@
                 <scope>test</scope>
             </dependency>
             <dependency>
+                <groupId>org.jboss.as</groupId>
+                <artifactId>jboss-as-arquillian-container-remote</artifactId>
+                <version>${version.org.jboss.as}</version>
+                <scope>test</scope>
+            </dependency>            
+            <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
                 <scope>test</scope>
                 <version>${version.junit}</version>
             </dependency>
-            <dependency>
-                <groupId>org.arquillian.extension</groupId>
-                <artifactId>arquillian-droidium-screenshooter</artifactId>
-                <version>${version.screenshooter}</version>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.arquillian.extension</groupId>
-                <artifactId>arquillian-desktop-video-recorder</artifactId>
-                <version>${version.recorder}</version>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.arquillian.extension</groupId>
-                <artifactId>arquillian-browser-screenshooter</artifactId>
-                <version>${version.screenshooter}</version>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.arquillian.extension</groupId>
-                <artifactId>arquillian-recorder-reporter-impl</artifactId>
-                <version>${version.reporter}</version>
-                <scope>test</scope>
-            </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <profiles>
+        <profile>
+            <id>managed</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>org.jboss.as</groupId>
+                    <artifactId>jboss-as-arquillian-container-managed</artifactId>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>remote</id>
+            <dependencies>
+                <dependency>
+                    <groupId>org.jboss.as</groupId>
+                    <artifactId>jboss-as-arquillian-container-remote</artifactId>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+        </profile>        
+    </profiles>
 
     <!-- Dependencies -->
     <dependencies>
@@ -128,12 +125,6 @@
         <dependency>
             <groupId>org.arquillian.container</groupId>
             <artifactId>arquillian-droidium-container</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <!-- Arquillian container adapter for JBoss AS 7.1.1 -->
-        <dependency>
-            <groupId>org.jboss.as</groupId>
-            <artifactId>jboss-as-arquillian-container-managed</artifactId>
             <scope>test</scope>
         </dependency>
         <!-- Arquillian Droidium Native extension for native Android application ftesting -->
@@ -169,26 +160,6 @@
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.arquillian.extension</groupId>
-            <artifactId>arquillian-droidium-screenshooter</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <!-- dependency>
-            <groupId>org.arquillian.extension</groupId>
-            <artifactId>arquillian-browser-screenshooter</artifactId>
-            <scope>test</scope>
-        </dependency-->
-        <dependency>
-            <groupId>org.arquillian.extension</groupId>
-            <artifactId>arquillian-desktop-video-recorder</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <!--dependency>
-            <groupId>org.arquillian.extension</groupId>
-            <artifactId>arquillian-recorder-reporter-impl</artifactId>
-            <scope>test</scope>
-        </dependency-->
     </dependencies>
 
     <!-- Build -->
@@ -277,39 +248,4 @@
         </pluginManagement>
     </build>
 
-	<profiles>
-		<profile>
-			<id>jboss-staging-repository-group</id>
- 
-			<repositories>
-				<repository>
-					<id>jboss-staging-repository-group</id>
-					<name>JBoss Staging Repository Group</name>
-					<url>https://repository.jboss.org/nexus/content/groups/staging</url>
-					<layout>default</layout>
-					<releases>
-						<enabled>true</enabled>
-						<updatePolicy>never</updatePolicy>
-					</releases>
-					<snapshots>
-						<enabled>true</enabled>
-						<updatePolicy>never</updatePolicy>
-					</snapshots>
-				</repository>
-			</repositories>
-			<pluginRepositories>
-				<pluginRepository>
-					<id>jboss-staging-repository-group</id>
-					<name>JBoss Staging Repository Group</name>
-					<url>https://repository.jboss.org/nexus/content/groups/staging</url>
-					<releases>
-						<enabled>true</enabled>
-					</releases>
-					<snapshots>
-						<enabled>true</enabled>
-					</snapshots>
-				</pluginRepository>
-			</pluginRepositories>
-		</profile>	
-	</profiles>
 </project> 

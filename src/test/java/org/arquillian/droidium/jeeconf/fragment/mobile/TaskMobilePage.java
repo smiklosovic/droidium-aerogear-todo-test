@@ -14,19 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.arquillian.droidium.devconf.fragment.mobile;
+package org.arquillian.droidium.jeeconf.fragment.mobile;
 
-import org.arquillian.droidium.devconf.drones.Mobile;
-import org.jboss.arquillian.drone.api.annotation.Drone;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 public class TaskMobilePage {
-
-    @Mobile
-    @Drone
-    private WebDriver mobile;
 
     @FindBy(id = "name")
     private WebElement mobileName;

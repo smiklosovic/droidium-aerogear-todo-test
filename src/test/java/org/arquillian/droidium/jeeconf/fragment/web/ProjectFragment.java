@@ -14,38 +14,50 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.arquillian.droidium.devconf.fragment.web;
+package org.arquillian.droidium.jeeconf.fragment.web;
 
-import org.arquillian.droidium.devconf.drones.Browser;
+import org.arquillian.droidium.jeeconf.drones.Browser;
 import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.graphene.Graphene;
-import org.jboss.arquillian.graphene.fragment.Root;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class LoginWebFragment {
+public class ProjectFragment {
 
-    @Root
-    private WebElement root;
-
-    @Drone
     @Browser
+    @Drone
     private WebDriver browser;
 
-    @FindBy(id = "login-username")
-    private WebElement usernameField;
+    @FindBy(className = "add-project")
+    private WebElement addProject;
 
-    @FindBy(id = "login-password")
-    private WebElement passwordField;
+    @FindBy(id = "project-title")
+    private WebElement projectTitle;
 
-    @FindBy(id = "login-submit")
-    private WebElement loginButton;
+    @FindBy(className = "add-project-form")
+    private WebElement addProjectForm;
 
-    public void login(String username, String password) {
-        usernameField.sendKeys(username);
-        passwordField.sendKeys(password);
-        loginButton.click();
-        Graphene.waitGui(browser).until().element(root).is().not().visible();
+    @FindBy(className = "submit-btn")
+    private WebElement addProjectButton;
+
+    @FindBy(css = "#project-container .project.project-255-255-255")
+    private WebElement addedProject;
+
+    public void click() {
+        addProject.click();
+        Graphene.waitGui(browser).until().element(addProject).attribute("style").contains("display: none;");
     }
+
+    public void addProject(String projectTitle) {
+        click();
+        this.projectTitle.sendKeys(projectTitle);
+        addProjectButton.click();
+        Graphene.waitGui(browser).until().element(addedProject).is().present();
+    }
+
+    public WebElement getAddedProject() {
+        return addedProject;
+    }
+
 }

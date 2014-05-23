@@ -14,21 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.arquillian.droidium.devconf;
+package org.arquillian.droidium.jeeconf;
 
-import static org.arquillian.droidium.devconf.utils.Utils.openWebPageUrl;
+import static org.arquillian.droidium.jeeconf.utils.Utils.openWebPageUrl;
 
 import java.io.File;
 import java.net.URL;
 
 import org.arquillian.droidium.container.api.AndroidDevice;
-import org.arquillian.droidium.devconf.drones.Browser;
-import org.arquillian.droidium.devconf.drones.Mobile;
-import org.arquillian.droidium.devconf.fragment.mobile.LoginMobilePage;
-import org.arquillian.droidium.devconf.fragment.mobile.TaskMobilePage;
-import org.arquillian.droidium.devconf.fragment.web.LoginWebFragment;
-import org.arquillian.droidium.devconf.fragment.web.ProjectFragment;
-import org.arquillian.droidium.devconf.fragment.web.TaskWebFragment;
+import org.arquillian.droidium.jeeconf.drones.Browser;
+import org.arquillian.droidium.jeeconf.drones.Mobile;
+import org.arquillian.droidium.jeeconf.fragment.mobile.LoginMobilePage;
+import org.arquillian.droidium.jeeconf.fragment.mobile.TaskMobilePage;
+import org.arquillian.droidium.jeeconf.fragment.web.LoginWebFragment;
+import org.arquillian.droidium.jeeconf.fragment.web.ProjectFragment;
+import org.arquillian.droidium.jeeconf.fragment.web.TaskWebFragment;
 import org.arquillian.droidium.native_.api.Instrumentable;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.OperateOnDeployment;
@@ -43,7 +43,6 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.EnterpriseArchive;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
@@ -62,14 +61,14 @@ public class AeroGearTestCase {
     @Mobile
     WebDriver mobile;
 
-    @Deployment(name = "todo-mobile-app", order = 1)
+    @Deployment(name = "todo-mobile-app")
     @Instrumentable(viaPort = 8081)
     @TargetsContainer("android")
     public static JavaArchive getAndroidDeployment() {
         return ShrinkWrap.createFromZipFile(JavaArchive.class, new File("android-todos.apk"));
     }
 
-    @Deployment(name = "todo-ear-app", order = 2)
+    @Deployment(name = "todo-ear-app")
     @TargetsContainer("jbossas")
     public static EnterpriseArchive getJBossASDeployment() {
         return ShrinkWrap.createFromZipFile(EnterpriseArchive.class, new File("todo-ear.ear"));
@@ -124,8 +123,13 @@ public class AeroGearTestCase {
 
         taskFragment.addTask("groceries", "buy some milk", "2020", "10", "20", "buy some fresh milk around the corner");
 
-        Assert.assertEquals(taskFragment.getAddedTask().getTitle(), "buy some milk");
-        Assert.assertEquals(taskFragment.getAddedTask().getDescription(), "buy some fresh milk around the corner");
+        Assert.assertEquals(
+            taskFragment.getAddedTask().getTitle(),
+            "buy some milk");
+
+        Assert.assertEquals(
+            taskFragment.getAddedTask().getDescription(),
+            "buy some fresh milk around the corner");
 
     }
 
@@ -134,7 +138,8 @@ public class AeroGearTestCase {
     @OperateOnDeployment("todo-mobile-app")
     public void loginUserInMobile(@ArquillianResource AndroidDevice device) {
 
-        device.getActivityManagerProvider().getActivityManager()
+        device.getActivityManagerProvider()
+            .getActivityManager()
             .startActivity("org.jboss.aerogear.todo.activities.LoginActivity");
 
         loginMobilePage.login("john", "123");
@@ -169,23 +174,4 @@ public class AeroGearTestCase {
         logoutButton.click();
     }
 
-    @Test
-    @InSequence(9)
-    @OperateOnDeployment("todo-mobile-app")
-    @RunAsClient
-    public void fakeRunAsClient() {
-
-    }
-
-    @Test
-    @InSequence(10)
-    @Ignore
-    public void ignoreTest() {
-    }
-
-    @Test
-    @InSequence(11)
-    public void throwExceptionTest() {
-        throw new RuntimeException("This is some testing exception.");
-    }
 }

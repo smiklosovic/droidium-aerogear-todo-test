@@ -14,24 +14,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.arquillian.droidium.devconf.drones;
+package org.arquillian.droidium.jeeconf.fragment.web;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
-import org.jboss.arquillian.drone.api.annotation.Qualifier;
+public class AddedTask {
 
-/**
- * Once you put this on Drone injection instance, you say that instance will operate on Android application.
- *
- * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
- *
- */
-@Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.FIELD, ElementType.PARAMETER })
-@Qualifier
-public @interface Mobile {
+    private WebElement addedTask;
+
+    public AddedTask(WebElement addedTask) {
+        this.addedTask = addedTask;
+    }
+
+    public String getDate() {
+        return addedTask.findElement(By.cssSelector(".task-upper .task-date")).getText();
+    }
+
+    public String getTitle() {
+        return addedTask.findElement(By.cssSelector(".task-upper .task-title")).getText();
+    }
+
+    public String getDescription() {
+        return addedTask.findElement(By.cssSelector(".task-desc")).getText();
+    }
 
 }

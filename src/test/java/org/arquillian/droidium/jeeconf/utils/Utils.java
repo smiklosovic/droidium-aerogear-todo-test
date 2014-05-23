@@ -14,16 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.arquillian.droidium.devconf.utils;
+package org.arquillian.droidium.jeeconf.utils;
 
 import java.net.URL;
 
 import org.openqa.selenium.WebDriver;
 
 /**
- *
+ * 
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
- *
+ * 
  */
 public class Utils {
 

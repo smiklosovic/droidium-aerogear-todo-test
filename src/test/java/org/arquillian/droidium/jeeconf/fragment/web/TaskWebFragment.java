@@ -14,11 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.arquillian.droidium.devconf.fragment.web;
+package org.arquillian.droidium.jeeconf.fragment.web;
 
 import java.util.List;
 
-import org.arquillian.droidium.devconf.drones.Browser;
+import org.arquillian.droidium.jeeconf.drones.Browser;
 import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.graphene.Graphene;
 import org.jboss.arquillian.graphene.findby.FindByJQuery;
