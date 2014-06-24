@@ -31,8 +31,13 @@
         </container>
     </group>
 
-    <extension qualifier="droidium-native">
-        <property name="serverApk">src/test/resources/bin/selendroid-server-0.8.0.apk</property>
+	<extension qualifier="reporter">
+		<property name="report">adoc</property>
+	</extension>
+
+    <extension qualifier="screenshooter">
+        <property name="takeBeforeTest">true</property>
+        <property name="takeAfterTest">true</property>
     </extension>
 
     <!-- This instance of WebDriver will control deployed EAR application -->

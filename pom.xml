@@ -25,10 +25,10 @@
     <!-- Properties -->
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <version.arquillian.core>1.1.4.Final</version.arquillian.core>
-        <version.org.jboss.arquillian.drone>1.2.4.Final</version.org.jboss.arquillian.drone>
-        <version.org.jboss.arquillian.graphene2>2.0.1.Final</version.org.jboss.arquillian.graphene2>
-        <version.droidium>1.0.0.Alpha5</version.droidium>
+        <version.arquillian.core>1.1.5.Final-SNAPSHOT</version.arquillian.core>
+        <version.org.jboss.arquillian.drone>2.0.0.Alpha3-SNAPSHOT</version.org.jboss.arquillian.drone>
+        <version.org.jboss.arquillian.graphene2>2.0.3.Final</version.org.jboss.arquillian.graphene2>
+        <version.droidium>1.0.0.Beta1-SNAPSHOT</version.droidium>
         <version.org.jboss.as>7.1.1.Final</version.org.jboss.as>
         <version.junit>4.11</version.junit>
         <maven.compiler.source>1.6</maven.compiler.source>
@@ -41,19 +41,19 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>org.jboss.arquillian.extension</groupId>
-                <artifactId>arquillian-drone-bom</artifactId>
-                <version>${version.org.jboss.arquillian.drone}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
                 <groupId>org.jboss.arquillian</groupId>
                 <artifactId>arquillian-bom</artifactId>
                 <version>${version.arquillian.core}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <dependency>
+                <groupId>org.jboss.arquillian.extension</groupId>
+                <artifactId>arquillian-drone-bom</artifactId>
+                <version>${version.org.jboss.arquillian.drone}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>            
             <dependency>
                 <groupId>org.jboss.arquillian.graphene</groupId>
                 <artifactId>graphene-webdriver</artifactId>
@@ -83,7 +83,7 @@
                 <artifactId>jboss-as-arquillian-container-remote</artifactId>
                 <version>${version.org.jboss.as}</version>
                 <scope>test</scope>
-            </dependency>            
+            </dependency>
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
@@ -116,11 +116,17 @@
                     <scope>test</scope>
                 </dependency>
             </dependencies>
-        </profile>        
+        </profile>
     </profiles>
 
     <!-- Dependencies -->
     <dependencies>
+        <dependency>
+            <groupId>org.arquillian.extension</groupId>
+            <artifactId>arquillian-droidium-screenshooter</artifactId>
+            <version>${version.droidium}</version>
+            <scope>test</scope>
+        </dependency>
         <!-- Arquillian Droidium container support -->
         <dependency>
             <groupId>org.arquillian.container</groupId>
