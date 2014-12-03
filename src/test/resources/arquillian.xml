@@ -32,7 +32,7 @@
     </group>
 
 	<extension qualifier="reporter">
-		<property name="report">adoc</property>
+		<property name="report">ad</property>
 	</extension>
 
     <extension qualifier="screenshooter">
@@ -50,6 +50,10 @@
     <extension qualifier="webdriver-mobile">
         <property name="browser">android</property>
         <property name="remoteAddress">http://localhost:8081/wd/hub</property>
+    </extension>
+
+    <extension qualifier="graphene">
+        <property name="scheme">org.arquillian.droidium.native_.spi.location.DroidiumScheme</property>
     </extension>
 
 </arquillian>

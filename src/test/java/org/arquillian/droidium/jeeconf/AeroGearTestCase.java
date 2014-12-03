@@ -16,12 +16,9 @@
  */
 package org.arquillian.droidium.jeeconf;
 
-import static org.arquillian.droidium.jeeconf.utils.Utils.openWebPageUrl;
-
 import java.io.File;
 import java.net.URL;
 
-import org.arquillian.droidium.container.api.AndroidDevice;
 import org.arquillian.droidium.jeeconf.drones.Browser;
 import org.arquillian.droidium.jeeconf.drones.Mobile;
 import org.arquillian.droidium.jeeconf.fragment.mobile.LoginMobilePage;
@@ -29,6 +26,7 @@ import org.arquillian.droidium.jeeconf.fragment.mobile.TaskMobilePage;
 import org.arquillian.droidium.jeeconf.fragment.web.LoginWebFragment;
 import org.arquillian.droidium.jeeconf.fragment.web.ProjectFragment;
 import org.arquillian.droidium.jeeconf.fragment.web.TaskWebFragment;
+import org.arquillian.droidium.jeeconf.utils.Utils;
 import org.arquillian.droidium.native_.api.Instrumentable;
 import org.arquillian.droidium.native_.webdriver.AndroidDriver;
 import org.arquillian.recorder.reporter.ReportMessage;
@@ -37,6 +35,7 @@ import org.jboss.arquillian.container.test.api.OperateOnDeployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.container.test.api.TargetsContainer;
 import org.jboss.arquillian.drone.api.annotation.Drone;
+import org.jboss.arquillian.graphene.page.InitialPage;
 import org.jboss.arquillian.graphene.page.Page;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.junit.InSequence;
@@ -60,7 +59,7 @@ public class AeroGearTestCase {
 
     @Rule
     public ExpectedException exception = ExpectedException.none();
-    
+
     @Drone
     @Browser
     private WebDriver browser;
@@ -111,7 +110,7 @@ public class AeroGearTestCase {
     @OperateOnDeployment("todo-ear-app")
     @ReportMessage("Opens web application in a browser")
     public void loginUserInWebClient(@ArquillianResource URL context) {
-        openWebPageUrl(browser, context);
+        Utils.openWebPageUrl(browser, context);
         loginFragment.login("john", "123");
     }
 
@@ -146,10 +145,7 @@ public class AeroGearTestCase {
     @Test
     @InSequence(4)
     @OperateOnDeployment("todo-mobile-app")
-    public void loginUserInMobile(@ArquillianResource AndroidDevice device) {
-
-        mobile.startActivity("org.jboss.aerogear.todo.activities.LoginActivity");
-
+    public void loginUserInMobile(@InitialPage @Mobile LoginMobilePage loginMobilePage) {
         loginMobilePage.login("john", "123");
     }
 
@@ -157,8 +153,7 @@ public class AeroGearTestCase {
     @InSequence(5)
     @OperateOnDeployment("todo-mobile-app")
     public void addMobileTask() {
-        taskMobileFragment.addTask("mobile task",
-            "2014-10-20", "task from mobile phone!");
+        taskMobileFragment.addTask("mobile task", "2014-10-20", "task from mobile phone!");
     }
 
     @Test
@@ -189,12 +184,12 @@ public class AeroGearTestCase {
         exception.expect(RuntimeException.class);
         throw new RuntimeException("this is some expected exception");
     }
-    
+
     @Test(expected = RuntimeException.class)
     @InSequence(10)
     @OperateOnDeployment("todo-ear-app")
     public void fakeException2() throws Exception {
         throw new RuntimeException();
     }
-    
+
 }

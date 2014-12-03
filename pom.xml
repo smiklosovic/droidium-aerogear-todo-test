@@ -25,9 +25,9 @@
     <!-- Properties -->
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <version.arquillian.core>1.1.5.Final-SNAPSHOT</version.arquillian.core>
-        <version.org.jboss.arquillian.drone>2.0.0.Alpha3-SNAPSHOT</version.org.jboss.arquillian.drone>
-        <version.org.jboss.arquillian.graphene2>2.0.3.Final</version.org.jboss.arquillian.graphene2>
+        <version.arquillian.core>1.1.5.Final</version.arquillian.core>
+        <version.org.jboss.arquillian.drone>2.0.0.Alpha2</version.org.jboss.arquillian.drone>
+        <version.org.jboss.arquillian.graphene2>2.1.0.Alpha1</version.org.jboss.arquillian.graphene2>
         <version.droidium>1.0.0.Beta1-SNAPSHOT</version.droidium>
         <version.org.jboss.as>7.1.1.Final</version.org.jboss.as>
         <version.junit>4.11</version.junit>
@@ -53,12 +53,17 @@
                 <version>${version.org.jboss.arquillian.drone}</version>
                 <type>pom</type>
                 <scope>import</scope>
-            </dependency>            
+            </dependency>
             <dependency>
                 <groupId>org.jboss.arquillian.graphene</groupId>
                 <artifactId>graphene-webdriver</artifactId>
                 <version>${version.org.jboss.arquillian.graphene2}</version>
                 <type>pom</type>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.arquillian.graphene</groupId>
+                <artifactId>arquillian-browser-screenshooter</artifactId>
+                <version>${version.org.jboss.arquillian.graphene2}</version>
             </dependency>
             <dependency>
                 <groupId>org.arquillian.container</groupId>
@@ -154,11 +159,6 @@
         <dependency>
             <groupId>org.jboss.arquillian.junit</groupId>
             <artifactId>arquillian-junit-container</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.arquillian.protocol</groupId>
-            <artifactId>arquillian-protocol-servlet</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>

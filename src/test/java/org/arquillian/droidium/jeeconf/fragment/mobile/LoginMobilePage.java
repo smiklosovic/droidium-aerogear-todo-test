@@ -16,9 +16,11 @@
  */
 package org.arquillian.droidium.jeeconf.fragment.mobile;
 
+import org.jboss.arquillian.graphene.page.Location;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+@Location("org.jboss.aerogear.todo.activities.LoginActivity")
 public class LoginMobilePage {
 
     @FindBy(id = "username_field")
